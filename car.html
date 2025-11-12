@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ASCII Car</title>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      background: #ffffff;
+    }
+    .back-weird {
+      position: fixed;
+      top: 8px;
+      left: 8px;
+      z-index: 9999;
+      padding: 10px 14px;
+      border: 3px dashed hotpink;
+      border-radius: 12px 2px 12px 2px;
+      background: linear-gradient(135deg, #ff00ff, #00ffff);
+      color: #000;
+      text-decoration: none;
+      font-family: "Comic Sans MS", "Papyrus", cursive, fantasy;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      box-shadow: 0 0 10px rgba(255,0,255,0.8), 0 0 10px rgba(0,255,255,0.8) inset;
+      transform: rotate(-7deg) skewX(8deg);
+      animation: wiggle 1.2s infinite ease-in-out, hue 3s infinite linear;
+    }
+    .back-weird:hover {
+      filter: drop-shadow(0 0 8px gold) contrast(1.4) saturate(1.6);
+      transform: rotate(7deg) skewX(-10deg) scale(1.05);
+    }
+    @keyframes wiggle {
+      0%, 100% { transform: rotate(-7deg) skewX(8deg) translateY(0); }
+      25% { transform: rotate(-4deg) skewX(5deg) translateY(-2px); }
+      50% { transform: rotate(4deg) skewX(-5deg) translateY(1px); }
+      75% { transform: rotate(-2deg) skewX(3deg) translateY(-1px); }
+    }
+    @keyframes hue {
+      0% { filter: hue-rotate(0deg); }
+      100% { filter: hue-rotate(360deg); }
+    }
+    .stage {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+    pre {
+      margin: 0;
+      font-family: "Courier New", Courier, monospace;
+      font-size: 14px;
+      line-height: 1.1;
+      white-space: pre;
+      user-select: none;
+    }
+  </style>
+</head>
+<body>
+  <a class="back-weird" href="index.html" title="ZOOM back!">← HOMEPAGE?!</a>
+  <div class="stage">
+    <pre id="anim"></pre>
+  </div>
+
+  <script>
+    // Simple ASCII car animation moving horizontally
+    const pre = document.getElementById('anim');
+
+    const car = [
+      "    ______",
+      " __ /|_||_\`.__",
+      "( _ )-    -   _ )",
+      "=`-(_)--(_)--(_)-'"
+    ];
+
+    const road = "_".repeat(60);
+
+    let pos = 0;
+
+    function render() {
+      const cols = Math.max(30, Math.floor((window.innerWidth - 40) / 8)); // rough chars based on font size
+      const maxPos = cols;
+      const pad = " ".repeat(pos);
+      const frame = car.map(l => pad + l).join("\n") + "\n" + pad + road;
+      pre.textContent = frame;
+      pos = (pos + 1) % (maxPos + 30);
+    }
+
+    let timer = setInterval(render, 60);
+    window.addEventListener('resize', () => { /* keep animating smoothly on resize */ });
+  </script>
+</body>
+</html>
